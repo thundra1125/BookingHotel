@@ -8,30 +8,30 @@ import Welcome from "./Welcome";
 import FeaturedHotels from "./FeaturedHotels";
 
 function Home() {
-    useEffect(() => {
-        document.title = `Hotel101 | Homepage`;
-    }, []); // eslint-disable-line
-    return (
-        <>
-            <Header />
+  useEffect(() => {
+    document.title = `Hotel101 | Homepage`;
+  }, []); // eslint-disable-line
+  return (
+    <>
+      <Header />
 
-            <Hero />
+      <Hero />
 
-            <Welcome />
+      <Welcome />
 
-            <Border />
+      <Border />
 
-            <FeaturedHotels />
+      <FeaturedHotels />
 
-            <Border />
+      <Border />
 
-            <ClientReviews />
+      <ClientReviews />
 
-            <Border />
+      <Border />
 
-            <Footer />
-        </>
-    );
+      <Footer />
+    </>
+  );
 }
 
 export default Home;
