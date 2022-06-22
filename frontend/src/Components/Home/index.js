@@ -9,7 +9,7 @@ import FeaturedHotels from "./FeaturedHotels";
 
 function Home() {
   useEffect(() => {
-    document.title = `Hotel101 | Homepage`;
+    document.title = `Hotel | Homepage`;
   }, []); // eslint-disable-line
   return (
     <>

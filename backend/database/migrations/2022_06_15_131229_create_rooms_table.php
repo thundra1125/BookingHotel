@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
+            $table->integer('size');
             $table->double('price');
             $table->integer('guest');
             $table->foreignId('hotel_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

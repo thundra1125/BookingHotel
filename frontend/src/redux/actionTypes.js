@@ -17,6 +17,7 @@ export const DELETE_ROOM = "DELETE_ROOM";
 export const GET_ALL_ROOMS = "GET_ALL_ROOMS";
 
 export const GET_ALL_BOOKINGS = "GET_ALL_BOOKINGS";
+export const GET_SELECTED_ROOM_BOOKINGS = "GET_SELECTED_ROOM_BOOKINGS";
 export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 
 export const GET_USER = "GET_USER";

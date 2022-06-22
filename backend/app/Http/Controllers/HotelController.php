@@ -20,12 +20,6 @@ class HotelController extends Controller
     public function index()
     {
         $data['success'] = true;
-        // $data['hotels'] =  Hotel::leftjoin('rooms', 'hotels.id', '=', 'rooms.hotel_id')
-        //     ->leftjoin('reviews', 'hotels.id', '=', 'reviews.hotel_id')
-        //     ->select('hotels.id', 'hotels.name', 'hotels.star', 'hotels.image', DB::raw('MIN(rooms.price) as min_price'), DB::raw('(SUM(reviews.rating) / COUNT(reviews.id)) as rating'), 'COUNT as total')
-        //     ->groupBy('hotels.id', 'hotels.name', 'hotels.star', 'hotels.image')
-        //     ->take(6)
-        //     ->get();
         $data['hotels'] = Hotel::withCount([
             'rooms',
             'rooms as booked' => function (Builder $query) {
@@ -107,9 +101,8 @@ class HotelController extends Controller
     }
 
     //show a hotel
-    public function show(Hotel $hotel)
+    public function show(Hotel $hotel, $type, $check_in, $check_out, $star, $min_price, $max_price, $city)
     {
-
         if ($hotel) {
             $data['success'] = true;
             $data['hotel'] = Hotel::leftjoin('rooms', 'hotels.id', '=', 'rooms.hotel_id')
@@ -117,14 +110,30 @@ class HotelController extends Controller
                 ->groupBy('hotels.id', 'hotels.name', 'hotels.star', 'hotels.image', 'hotels.city', 'hotels.address', 'hotels.x_coordinate', 'hotels.y_coordinate')
                 ->where('hotels.id', $hotel->id)
                 ->first();
-            $data['hotel']['rooms'] = $hotel->rooms->take(6);
-            $currentDate = Carbon::now()->toDateString();
-            foreach($data['hotel']['rooms'] as $room) {
-                if(Booking::where('room_id', $room->id)->whereDate('check_in', '<=', $currentDate)->whereDate('check_out', '>=', $currentDate)->count()) {
-                    $room['booked'] = true;
-                } else {
-                    $room['booked'] = false;
+
+            // $data['hotel']['rooms'] = $hotel->rooms;
+            if($type=="room_search") {
+                $data['hotel']['rooms'] = $hotel->rooms->whereBetween('price', [$min_price, $max_price]);
+                foreach($data['hotel']['rooms'] as $room) {
+                    if(Booking::where('room_id', $room->id)->whereDate('check_in', '>=', $check_in)->whereDate('check_out', '<=', $check_out)->count()) {
+                        $room['booked'] = true;
+                    } else {
+                        $room['booked'] = false;
+                    }
                 }
+            }
+             else if($type=="common") {
+                $data['hotel']['rooms'] = $hotel->rooms;
+                $currentDate = Carbon::now()->toDateString();
+                foreach($data['hotel']['rooms'] as $room) {
+                    if(Booking::where('room_id', $room->id)->whereDate('check_in', '<=', $currentDate)->whereDate('check_out', '>=', $currentDate)->count()) {
+                        $room['today_booked'] = true;
+                    } else {
+                        $room['today_booked'] = false;
+                    }
+                }
+            } else {
+                return;
             }
 
             $data['hotel']['reviews'] = $hotel->reviews;
@@ -208,7 +217,6 @@ class HotelController extends Controller
             //get ids of all booked rooms so we can filter them
             $booked_rooms_ids = collect($booked_rooms)->pluck('room_id');
 
-
             //get available rooms
             $available_rooms = Room::when(request()->guest != null, function ($query) {
                 return $query->where('guest', '>=', request()->guest);
@@ -235,6 +243,7 @@ class HotelController extends Controller
 
                 ->get();
 
+
             //get the hotels that meet the criteria
             $data['hotels'] =  Hotel::join('rooms', 'hotels.id', '=', 'rooms.hotel_id')
                 ->leftjoin('reviews', 'hotels.id', '=', 'reviews.hotel_id')
@@ -248,6 +257,8 @@ class HotelController extends Controller
                 ->whereIn('rooms.id', $available_rooms)
                 ->groupBy('hotels.id', 'hotels.name', 'hotels.star', 'hotels.city', 'hotels.image')
                 ->paginate(6);
+            $data['criteria'] = ['check_in'=>request()->check_in, 'check_out'=>request()->check_out, 'city'=>request()->city,
+                                 'star' => request()->star, 'min_price'=>request()->min_price, 'max_price'=>request()->max_price, 'features'=>request()->features ];
         } catch (\Throwable $th) {
             $data['success'] = false;
         }

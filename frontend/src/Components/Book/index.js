@@ -4,13 +4,13 @@ import Footer from "../Global/Footer";
 import BookForm from "./BookForm";
 
 function Book() {
-    return (
-        <>
-            <Header />
-            <BookForm />
-            <Footer />
-        </>
-    );
+  return (
+    <>
+      <Header />
+      <BookForm />
+      <Footer />
+    </>
+  );
 }
 
 export default Book;

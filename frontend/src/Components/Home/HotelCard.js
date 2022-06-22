@@ -10,7 +10,9 @@ function HotelCard({
         className="bg-gray-100 rounded-sm  overflow-hidden shadow-lg mt-5"
         data-aos="fade-up"
       >
-        <Link to={`/hotel/${id}`}>
+        <Link
+          to={`/hotel/${id}/common/check_in=""&check_out=""&city=""&star=0&min_price=0&max_price=""`}
+        >
           <div className="relative ">
             <img
               src={

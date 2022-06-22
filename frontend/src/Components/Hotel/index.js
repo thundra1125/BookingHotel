@@ -21,12 +21,23 @@ import useSecureLs from "../Global/useSecureLs";
 function Hotel(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  let { id } = useParams();
+  let { id, type, check_in, check_out, star, min_price, max_price, city } =
+    useParams();
+  const paramData = [
+    id,
+    type,
+    check_in,
+    check_out,
+    star,
+    min_price,
+    max_price,
+    city,
+  ];
   const [_user_id] = useSecureLs("user_id");
   const [userId, setUserId] = useState(_user_id);
 
   useEffect(() => {
-    getHotel(dispatch, id);
+    getHotel(dispatch, id, paramData);
   }, [state.reviews]); // eslint-disable-line
   useEffect(() => {
     setUserId(userId);
@@ -60,7 +71,7 @@ function Hotel(props) {
         <TitleSection title={`${state.hotels.hotel.name}'s Rooms`} />
       )}
 
-      <HotelRooms hotel={state.hotels.hotel} />
+      <HotelRooms hotel={state.hotels.hotel} type={type} />
 
       {state && state.reviews.reviews.length > 0 && (
         <>

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\Booking;
 use App\Models\Feature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class RoomController extends Controller
 {
@@ -36,6 +38,7 @@ class RoomController extends Controller
                     'name' => 'required',
                     'description' => 'required',
                     'price' => 'required',
+                    'size' => 'required|min:20',
                     'guest' => 'required',
                     'hotel_id' => 'required',
                     'image' => 'required',
@@ -64,6 +67,7 @@ class RoomController extends Controller
                         $room = new Room;
                         $room->name = $request->name;
                         $room->description = $request->description;
+                        $room->size = $request->size;
                         $room->price = $request->price;
                         $room->guest = $request->guest;
                         $room->hotel_id = $request->hotel_id;
@@ -97,6 +101,15 @@ class RoomController extends Controller
         if ($room) {
             $data['success'] = true;
             $data['room'] = $room;
+            $currentDate = Carbon::now()->toDateString();
+            $bookings_room = Booking::where('room_id', $room->id)->whereDate('check_in', "<=", $currentDate)->whereDate('check_out', '>=', $currentDate)->count();
+
+            if ($bookings_room == 0) {
+                $data['room']['current_booked'] = false;
+            } else {
+                $data['room']['current_booked'] = true;
+            }
+
             $data['room']['features'] = Feature::select('name')->where('room_id', $room->id)->get();
             $data['suggested_rooms'] = count(Room::where('rooms.id', '!=', $room->id)->get()) >= 3 ? Room::where('rooms.id', '!=', $room->id)->inRandomOrder()->limit(3)->get() : [];
         }

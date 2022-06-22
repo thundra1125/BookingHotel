@@ -4,32 +4,30 @@ import Slider from "./Slider";
 import { getHotelImages } from "../../redux/actions/hotels";
 
 function Welcome() {
-    const dispatch = useDispatch();
-    const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
 
-    useEffect(() => {
-        getHotelImages(dispatch);
-    }, []); // eslint-disable-line
+  useEffect(() => {
+    getHotelImages(dispatch);
+  }, []); // eslint-disable-line
 
-    return (
-        <section>
-            <div className="mt-8 p-8 xl:px-48 ">
-                <div className="text-center ">
-                    <h2 className="text-4xl font-semibold text-gray-800 font-serif">
-                        Welcome To Hotel101
-                    </h2>
+  return (
+    <section>
+      <div className="mt-8 p-8 xl:px-48 ">
+        <div className="text-center ">
+          <h2 className="text-4xl font-semibold text-gray-800 font-serif">
+            Welcome To Our Hotel Management site!
+          </h2>
 
-                    <p className="text-gray-600 mt-5">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Aliquam temporibus at eveniet excepturi a
-                        architecto eligendi. Soluta perspiciatis quod excepturi!
-                    </p>
-                </div>
+          <p className="text-gray-600 mt-5">
+            Our Site provides excellent condition!
+          </p>
+        </div>
 
-                <Slider images={state.hotels.images} />
-            </div>
-        </section>
-    );
+        <Slider images={state.hotels.images} />
+      </div>
+    </section>
+  );
 }
 
 export default Welcome;

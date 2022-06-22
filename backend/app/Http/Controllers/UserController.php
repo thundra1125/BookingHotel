@@ -175,6 +175,7 @@ class UserController extends Controller
                 $data['success'] =  true;
                 $data['user_id'] =  $user->id;
                 $data['is_admin'] =  $user->is_admin;
+                $data['user_image'] = $user->image;
                 $data['token'] =  $user->createToken('')->accessToken;
             } else {
                 $data['success'] =  false;

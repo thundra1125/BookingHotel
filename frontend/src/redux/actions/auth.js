@@ -39,7 +39,14 @@ export const signUp = (dispatch, user, setToken, setUserId, setIsAdmin) => {
 };
 //-----------------------------------------
 
-export const logIn = (dispatch, user, setToken, setUserId, setIsAdmin) => {
+export const logIn = (
+  dispatch,
+  user,
+  setToken,
+  setUserId,
+  setIsAdmin,
+  setUserImage
+) => {
   setLoading(dispatch, true);
   axios({
     method: "post",
@@ -57,6 +64,9 @@ export const logIn = (dispatch, user, setToken, setUserId, setIsAdmin) => {
       setUserId(response.data.data.success ? response.data.data.user_id : null);
       setIsAdmin(
         response.data.data.success ? response.data.data.is_admin : null
+      );
+      setUserImage(
+        response.data.data.success ? response.data.data.user_image : null
       );
 
       localStorage.setItem("first_login", true);

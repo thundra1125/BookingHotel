@@ -10,15 +10,16 @@ function RoomCard({ room }) {
   return (
     <>
       <a
-        className="mx-5 rounded-t-lg overflow-hidden shadow-xl mt-5 "
+        className="mx-5 rounded-t-lg overflow-visible shadow-xl mt-5 "
         data-aos="fade-up"
         href={`/room/${room.id}`}
       >
-        <div className="relative">
+        <div className="relative overflow-visible">
           <img
             className="absolute top-0 right-0 w-1/3"
+            style={{ top: "-4%", right: "-2%" }}
             src={`/assets/img/${
-              room.booked ? "blueRibbon.png" : "redRibbon.png"
+              room.today_booked ? "blueRibbon.png" : "redRibbon.png"
             }`}
             alt="royal ribbon png"
           />

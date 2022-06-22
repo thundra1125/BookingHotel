@@ -47,6 +47,9 @@ class BookingController extends Controller
                     'user_id' => 'required',
                     'room_id' => 'required',
                     'full_name' => 'required',
+                    'guests' => 'required',
+                    'email' => 'required|email',
+                    'phone' => 'required',
                 ]);
 
                 //check if there is no validation errors
@@ -106,6 +109,9 @@ class BookingController extends Controller
                     $booking->check_out = $request->check_out;
                     $booking->user_id = $request->user_id;
                     $booking->room_id = $request->room_id;
+                    $booking->guests = $request->guests;
+                    $booking->email = $request->email;
+                    $booking->phone = $request->phone;
 
                     if ($booking->save()) {
                         $data['success'] = true;
@@ -139,6 +145,11 @@ class BookingController extends Controller
             $data['success'] = false;
 
         return response()->json(['data' => $data]);
+    }
+
+    public function getSelectedRoomBookings(Room $room) {
+        $selectedRoomBookings = Booking::where('room_id', $room->id)->select('check_in', 'check_out')->get();
+        return response()->json(['data' => $selectedRoomBookings]);
     }
 
     //Validate data and return data with errors if exist

@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('bookings', [BookingController::class,'index']);
     Route::post('bookings', [BookingController::class,'store']);
     Route::get('bookings/user/{user}', [BookingController::class,'getUserBookings']);
+    Route::get('bookings/getSelectedRoomBookingDates/{room}', [BookingController::class, 'getSelectedRoomBookings']);
 
     //Review routes
 
@@ -69,7 +70,7 @@ Route::get('hotels', [HotelController::class, 'index']);
 Route::post('hotels/search', [HotelController::class, 'search']);
 Route::get('hotels/search', [HotelController::class, 'getSearchData']);
 Route::get('hotels/images', [HotelController::class, 'getHotelImages']);
-Route::get('hotels/{hotel}', [HotelController::class, 'show']);
+Route::get('hotels/{hotel}/{type}/{check_in}/{check_out}/{star}/{min_price}/{max_price}/{city}', [HotelController::class, 'show']);
 
 //Room routes
 Route::get('rooms/{room}', [RoomController::class,'show']);

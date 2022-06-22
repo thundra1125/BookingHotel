@@ -33,118 +33,106 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 function App() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const [_token] = useSecureLs("token");
-    const [userId] = useSecureLs("user_id");
-    const [isAdmin] = useSecureLs("is_admin");
+  const [_token] = useSecureLs("token");
+  const [userId] = useSecureLs("user_id");
+  const [isAdmin] = useSecureLs("is_admin");
 
-    useEffect(() => {
-        checkAuth(dispatch, _token, userId, isAdmin);
-    }, [_token, userId, isAdmin]); // eslint-disable-line
+  useEffect(() => {
+    checkAuth(dispatch, _token, userId, isAdmin);
+  }, [_token, userId, isAdmin]); // eslint-disable-line
 
-    useEffect(() => {
-        AOS.init({
-            offset: 200,
-            duration: 500,
-            easing: "ease-in-sine",
-        });
-    }, []); // eslint-disable-line
-    return (
-        <>
-            <Router>
-                <Switch>
-                    {/* PUBLIC */}
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/Login" component={Login} />
-                    <Route exact path="/signup" component={Signup} />
-                    <Route exact path="/logout" component={Logout} />
-                    <Route exact path="/hotel/:id" component={Hotel} />
-                    <Route exact path="/room/:id" component={Room} />
-                    <Route
-                        path={[
-                            `/search/check_in=:check_in?&check_out=:check_out?&city=:city?&guest=:guest?`,
-                            "/search"
-                        ]}
-                        component={Search}
-                    />
+  useEffect(() => {
+    AOS.init({
+      offset: 200,
+      duration: 500,
+      easing: "ease-in-sine",
+    });
+  }, []); // eslint-disable-line
+  return (
+    <>
+      <Router>
+        <Switch>
+          {/* PUBLIC */}
+          <Route exact path="/" component={Home} />
+          <Route exact path="/Login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/logout" component={Logout} />
+          <Route
+            exact
+            path={`/hotel/:id/:type/check_in=:check_in?&check_out=:check_out?&city=:city?star=:star?&min_price=:min_price?&max_price=:max_price`}
+            component={Hotel}
+          />
+          <Route exact path="/room/:id" component={Room} />
+          <Route
+            path={[
+              `/search/check_in=:check_in?&check_out=:check_out?&city=:city?`,
+              "/search",
+            ]}
+            component={Search}
+          />
 
-                    <ProtectedRoute exact path="/book" component={Book} />
-                    {/* USER */}
-                    <ProtectedRoute
-                        exact
-                        path="/user-profile/:id"
-                        component={UserProfile}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/user-bookings/:id"
-                        component={UserBookings}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/user-reviews/:id"
-                        component={UserReviews}
-                    />
+          <ProtectedRoute exact path="/book" component={Book} />
+          {/* USER */}
+          <ProtectedRoute
+            exact
+            path="/user-profile/:id"
+            component={UserProfile}
+          />
+          <ProtectedRoute
+            exact
+            path="/user-bookings/:id"
+            component={UserBookings}
+          />
+          <ProtectedRoute
+            exact
+            path="/user-reviews/:id"
+            component={UserReviews}
+          />
 
-                    <ProtectedRoute
-                        exact
-                        path="/user-reviews/:id"
-                        component={UserProfile}
-                    />
+          <ProtectedRoute
+            exact
+            path="/user-reviews/:id"
+            component={UserProfile}
+          />
 
-                    {/* ADMIN */}
-                    <ProtectedRoute
-                        exact
-                        path="/admin-profile/:id"
-                        component={AdminProfile}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/hotel-management"
-                        component={HotelManagement}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/add-hotel"
-                        component={AddHotel}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/edit-hotel/:id"
-                        component={EditHotel}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/room-management"
-                        component={RoomManagement}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/review-management"
-                        component={ReviewManagement}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/edit-room/:id"
-                        component={EditRoom}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/add-room"
-                        component={AddRoom}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/booking-management"
-                        component={BookingManagement}
-                    />
-                    <Route exact path="/401" component={Unauthorized} />
-                    <Route exact path="/404" component={RedirectPage} />
-                </Switch>
-            </Router>
-        </>
-    );
+          {/* ADMIN */}
+          <ProtectedRoute
+            exact
+            path="/admin-profile/:id"
+            component={AdminProfile}
+          />
+          <ProtectedRoute
+            exact
+            path="/hotel-management"
+            component={HotelManagement}
+          />
+          <ProtectedRoute exact path="/add-hotel" component={AddHotel} />
+          <ProtectedRoute exact path="/edit-hotel/:id" component={EditHotel} />
+          <ProtectedRoute
+            exact
+            path="/room-management"
+            component={RoomManagement}
+          />
+          <ProtectedRoute
+            exact
+            path="/review-management"
+            component={ReviewManagement}
+          />
+          <ProtectedRoute exact path="/edit-room/:id" component={EditRoom} />
+          <ProtectedRoute exact path="/add-room" component={AddRoom} />
+          <ProtectedRoute
+            exact
+            path="/booking-management"
+            component={BookingManagement}
+          />
+          <Route exact path="/401" component={Unauthorized} />
+          <Route exact path="/404" component={RedirectPage} />
+        </Switch>
+      </Router>
+    </>
+  );
 }
 
 export default App;
