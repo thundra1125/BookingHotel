@@ -19,8 +19,8 @@ class UserController extends Controller
             $data['user']['first_name'] = $user->first_name;
             $data['user']['last_name'] = $user->last_name;
             $data['user']['phone'] = $user->phone;
-            $data['user']['address'] = $user->address;
-            $data['user']['city'] = $user->city;
+            // $data['user']['address'] = $user->address;
+            // $data['user']['city'] = $user->city;
             $data['user']['image'] = $user->image;
         } else
             $data['success'] = false;

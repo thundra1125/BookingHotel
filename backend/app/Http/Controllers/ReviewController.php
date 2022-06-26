@@ -32,6 +32,14 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         try {
+                  $data['success'] = true;
+            $data['reviews'] =  Review::join('hotels', 'hotels.id', '=', 'reviews.hotel_id')
+                ->select('reviews.id', 'reviews.content', 'reviews.rating', 'reviews.created_at', 'hotels.name', 'reviews.hotel_id', 'reviews.user_id',  'hotels.city')
+                ->groupBy('reviews.id', 'reviews.content', 'reviews.rating', 'reviews.created_at', 'hotels.name', 'reviews.hotel_id', 'reviews.user_id', 'hotels.city')
+                ->paginate(6);
+        } else
+            $data['success'] = false;
+
             if ($request->user_id == Auth::user()->id) {
                 //You can only review a hotel you booked
                 $bookings =  Booking::join('rooms', 'rooms.id', '=', 'bookings.room_id')
@@ -74,6 +82,12 @@ class ReviewController extends Controller
                         $data['errors'] = collect(['You can only review a hotel you booked']);
                     }
                 } else {
+                    $data = $this->validateData([
+                    'content' => 'required',
+                    'rating' => 'required',
+                    'user_id' => 'required',
+                    'hotel_id' => 'required',
+                ]);
                     $data['success'] = false;
                     $data['errors'] = collect(['You can only post one review per hotel']);
                 }

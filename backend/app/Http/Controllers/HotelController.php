@@ -205,14 +205,14 @@ class HotelController extends Controller
             $data['success'] = true;
 
             //get the booked rooms where check_out is not between request()->check_in and request()->check_out
-            $booked_rooms = array_merge(
-                Room::join('bookings', 'rooms.id', '=', 'bookings.room_id')
-                    ->whereBetween('bookings.check_in', [request()->check_in, request()->check_out])
-                    ->get()->toArray(),
-                Room::join('bookings', 'rooms.id', '=', 'bookings.room_id')
-                    ->whereBetween('bookings.check_out', [request()->check_in, request()->check_out])
-                    ->get()->toArray()
-            );
+            // $booked_rooms = array_merge(
+            //     Room::join('bookings', 'rooms.id', '=', 'bookings.room_id')
+            //         ->whereBetween('bookings.check_in', [request()->check_in, request()->check_out])
+            //         ->get()->toArray(),
+            //     Room::join('bookings', 'rooms.id', '=', 'bookings.room_id')
+            //         ->whereBetween('bookings.check_out', [request()->check_in, request()->check_out])
+            //         ->get()->toArray()
+            // );
 
             //get ids of all booked rooms so we can filter them
             $booked_rooms_ids = collect($booked_rooms)->pluck('room_id');
