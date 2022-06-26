@@ -46,23 +46,23 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case GET_ALL_BOOKINGS: {
-      return {
-        ...state,
-        allBookings: action.payload.bookings.data,
-        pagination: {
-          current_page: action.payload.bookings.current_page,
-          first_page_url: action.payload.bookings.first_page_url,
-          from: action.payload.bookings.from,
-          last_page: action.payload.bookings.last_page,
-          last_page_url: action.payload.bookings.last_page_url,
-          next_page_url: action.payload.bookings.next_page_url,
-          path: action.payload.bookings.path,
-          per_page: action.payload.bookings.per_page,
-          prev_page_url: action.payload.bookings.prev_page_url,
-        },
-      };
-    }
+    // case GET_ALL_BOOKINGS: {
+    //   return {
+    //     ...state,
+    //     allBookings: action.payload.bookings.data,
+    //     pagination: {
+    //       current_page: action.payload.bookings.current_page,
+    //       first_page_url: action.payload.bookings.first_page_url,
+    //       from: action.payload.bookings.from,
+    //       last_page: action.payload.bookings.last_page,
+    //       last_page_url: action.payload.bookings.last_page_url,
+    //       next_page_url: action.payload.bookings.next_page_url,
+    //       path: action.payload.bookings.path,
+    //       per_page: action.payload.bookings.per_page,
+    //       prev_page_url: action.payload.bookings.prev_page_url,
+    //     },
+    //   };
+    // }
     case GET_SELECTED_ROOM_BOOKINGS: {
       return {
         ...state,
@@ -75,6 +75,12 @@ export default function (state = initialState, action) {
         success: action.payload.success ? true : false,
         booking: action.payload.booking,
         errors: action.payload.success ? null : action.payload.errors,
+        last_page: action.payload.bookings.last_page,
+        last_page_url: action.payload.bookings.last_page_url,
+        next_page_url: action.payload.bookings.next_page_url,
+        path: action.payload.bookings.path,
+        per_page: action.payload.bookings.per_page,
+        prev_page_url: action.payload.bookings.prev_page_url,
       };
     }
     case SET_LOADING: {
@@ -87,6 +93,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         success: action.payload,
+        last_page: action.payload.bookings.last_page,
+        last_page_url: action.payload.bookings.last_page_url,
+        next_page_url: action.payload.bookings.next_page_url,
+        path: action.payload.bookings.path,
+        per_page: action.payload.bookings.per_page,
+        prev_page_url: action.payload.bookings.prev_page_url,
       };
     }
     default:

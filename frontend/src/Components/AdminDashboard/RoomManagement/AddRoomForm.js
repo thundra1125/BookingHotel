@@ -45,6 +45,15 @@ function AddRoomForm() {
     return () => clearTimeout(timer);
   }, [state.rooms.success]); // eslint-disable-line
 
+  const [room, setRoom] = useState({
+    name: "",
+    description: "",
+    size: 0,
+    price: "",
+    guest: "",
+    hotel_id: "",
+    features: [],
+  });
   useEffect(() => {
     var input = document.querySelector(".features"), // eslint-disable-next-line
       tagify = new Tagify(input, {
@@ -76,6 +85,12 @@ function AddRoomForm() {
     formData.append("guest", room.guest);
     formData.append("hotel_id", room.hotel_id);
     formData.append("features", JSON.stringify(room.features));
+    const formData = new FormData();
+    formData.append("name", room.name);
+    formData.append("description", room.description);
+    formData.append("size", room.size);
+    formData.append("price", room.price);
+    formData.append("guest", room.guest);
     for (const key of Object.keys(image)) {
       image && formData.append(`image[${key}]`, image[key]);
     }
