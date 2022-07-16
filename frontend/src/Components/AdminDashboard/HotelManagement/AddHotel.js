@@ -6,19 +6,19 @@ import AdminDropDown from "../AdminDropDown";
 import AddHotelForm from "./AddHotelForm";
 
 function AddHotel() {
-    return (
-        <>
-            <Header />
+  return (
+    <>
+      <Header />
 
-            <main className="bg-gray-100 min-h-screen flex flex-col md:flex-row md:justify-center p-5 text-gray-800">
-                <AdminSiderBar />
-                <AdminDropDown />
-                <AddHotelForm />
-            </main>
+      <main className="bg-gray-100 min-h-screen flex flex-col md:flex-row md:justify-center p-5 text-gray-800">
+        <AdminSiderBar />
+        <AdminDropDown />
+        <AddHotelForm />
+      </main>
 
-            <Footer />
-        </>
-    );
+      <Footer />
+    </>
+  );
 }
 
 export default AddHotel;
